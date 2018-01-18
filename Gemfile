@@ -51,3 +51,4 @@ gem 'erb2haml'
 gem 'pry-rails'
 
 gem 'devise'
+ruby '2.4.3'
