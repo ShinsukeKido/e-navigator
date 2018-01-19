@@ -1,0 +1,22 @@
+= form_for(current_user) do |f|
+  .field-label
+    = f.label :名前
+  .field-input
+    = f.text_field :name
+  .field-label
+    = f.label :生年月日
+  .field-input
+    = f.date_select :birth, start_year: 1980
+  .field-label
+    = f.label :性別
+  .field-input
+    = f.radio_button :gender, :男性
+    = f.label :男性
+    = f.radio_button :gender, :女性
+    = f.label :女性
+  .field-label
+    = f.label :学校名
+  .field-input
+    = f.text_field :school
+  .actions
+    = f.submit "Update"
