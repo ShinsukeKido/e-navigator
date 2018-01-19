@@ -1,0 +1,7 @@
+= form_for [current_user, @interview] do |f|
+  .field-label
+    = f.label :開始時間
+  .field-input
+    = f.datetime_select :date, use_month_numbers: true
+  .actions
+    = f.submit "編集"
