@@ -1,5 +1,6 @@
 = link_to "プロフィール", edit_user_path(current_user)
 = link_to "新規面接作成", new_user_interview_path(current_user)
+= link_to "ログアウト", destroy_user_session_path, method: :delete
 %p "#{current_user.name}さんの面接一覧"
 - @interviews.each do |interview|
   .interview
