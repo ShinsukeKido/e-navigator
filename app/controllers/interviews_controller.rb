@@ -2,7 +2,7 @@ class InterviewsController < ApplicationController
   before_action :set_prototype, only: [:edit, :destroy, :update]
 
   def index
-    @interviews = current_user.interviews
+    @interviews = current_user.interviews.order("date ASC")
   end
 
   def new
@@ -40,7 +40,7 @@ class InterviewsController < ApplicationController
   end
 
   def interview_params
-    params.require(:interview).permit(:date)
+    params.require(:interview).permit(:date).merge(user_id: current_user.id)
   end
 
 end

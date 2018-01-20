@@ -2,7 +2,8 @@
 = link_to "新規面接作成", new_user_interview_path(current_user)
 %p "#{current_user.name}さんの面接一覧"
 - @interviews.each do |interview|
-  =interview.date
-  =interview.status
-  =link_to "編集", edit_user_interview_path(current_user, interview)
-  =link_to "削除", "/users/#{current_user.id}/interviews/#{interview.id}", method: :delete
+  .interview
+    =interview.date.strftime("%Y-%m-%d %H:%M:%S")
+    =interview.status
+    =link_to "編集", edit_user_interview_path(current_user, interview)
+    =link_to "削除", "/users/#{current_user.id}/interviews/#{interview.id}", method: :delete, data: {confirm: "削除してよろしいでしょうか？"}
