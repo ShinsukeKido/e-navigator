@@ -1,5 +1,5 @@
 class InterviewsController < ApplicationController
-  before_action :set_prototype, only: [:edit, :destroy, :update]
+  before_action :set_interview, only: [:edit, :destroy, :update]
 
   def index
     @interviews = current_user.interviews.order("date ASC")
@@ -35,7 +35,7 @@ class InterviewsController < ApplicationController
 
   private
 
-  def set_prototype
+  def set_interview
     @interview = Interview.find(params[:id])
   end
 

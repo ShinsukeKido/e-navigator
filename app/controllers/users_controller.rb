@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    binding.pry
     if current_user.update(user_params)
       redirect_to root_path
     else
