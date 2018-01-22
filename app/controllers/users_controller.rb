@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
-  def edit
+  def index
+    @users = User.where.not(id: current_user.id).order("id ASC")
   end
 
   def update

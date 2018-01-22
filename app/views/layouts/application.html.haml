@@ -8,4 +8,10 @@
     = javascript_include_tag 'application'
   %body
     = render 'layouts/notifications'
+    - if user_signed_in?
+      = link_to "ユーザー一覧", users_path
+      = link_to "プロフィール", edit_user_path(current_user)
+      = link_to "自分の面接一覧", user_interviews_path(current_user)
+      = link_to "新規面接作成", new_user_interview_path(current_user)
+      = link_to "ログアウト", destroy_user_session_path, method: :delete
     = yield

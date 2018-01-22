@@ -1,4 +1,4 @@
-= form_for [current_user, @interview] do |f|
+= form_for [@interview.user, @interview] do |f|
   .field-label
     = f.label :開始時間
   .field-input
