@@ -1,0 +1,4 @@
+%p #{@user.name}さんの面接希望日が決まりました。
+%p 以下のリンクから、面接日時の承認をよろしくお願いします。
+.tentative-day
+  = link_to "面接一覧", "https://e-navigator-shinsukekido.herokuapp.com/users/#{@user.id}/interviews"

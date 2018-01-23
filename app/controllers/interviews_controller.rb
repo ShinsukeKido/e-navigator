@@ -13,6 +13,7 @@ class InterviewsController < ApplicationController
   def create
     @interview = Interview.new(interview_params)
     if @interview.save
+      NotificationMailer.send_confirm_to_interviewer(current_user).deliver
       redirect_to root_path, notice: '面接日程を作成しました'
     else
       flash.now[:alert] = '面接日程を作成できませんでした'
@@ -34,6 +35,7 @@ class InterviewsController < ApplicationController
     @interviewer = User.find(params[:user_id])
     @interviews = Interview.where(user_id: @user.id).where.not(id: params[:id])
     if @interview.update(status: 1) && @interviews.update(status: 2)
+      NotificationMailer.send_confirm_to_user(@user, @interviewer, @interview).deliver
       redirect_to root_path, notice: '面接日程を選択しました'
     else
       flash.now[:alert] = '面接日程を選択できませんでした'
