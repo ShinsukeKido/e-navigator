@@ -1,8 +1,9 @@
 class InterviewsController < ApplicationController
-  before_action :set_interview, only: [:edit, :destroy, :update]
+  before_action :set_interview, only: [:edit, :destroy, :update, :approve]
 
   def index
-    @interviews = current_user.interviews.order("date ASC")
+    @user = User.find(params[:user_id])
+    @interviews = @user.interviews.order("date ASC")
   end
 
   def new
@@ -28,6 +29,18 @@ class InterviewsController < ApplicationController
     end
   end
 
+  def approve
+    @user = @interview.user
+    @interviewer = User.find(params[:user_id])
+    @interviews = Interview.where(user_id: @user.id).where.not(id: params[:id])
+    if @interview.update(status: 1) && @interviews.update(status: 2)
+      redirect_to root_path, notice: '面接日程を選択しました'
+    else
+      flash.now[:alert] = '面接日程を選択できませんでした'
+      render :edit
+    end
+  end
+
   def destroy
     @interview.destroy
     redirect_to :root, notice: '面接日程を削除しました'
@@ -40,7 +53,7 @@ class InterviewsController < ApplicationController
   end
 
   def interview_params
-    params.require(:interview).permit(:date).merge(user_id: current_user.id)
+    params.require(:interview).permit(:date, :status).merge(user_id: params[:user_id])
   end
 
 end

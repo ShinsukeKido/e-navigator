@@ -1,10 +1,17 @@
-= link_to "プロフィール", edit_user_path(current_user)
-= link_to "新規面接作成", new_user_interview_path(current_user)
-= link_to "ログアウト", destroy_user_session_path, method: :delete
-%p #{current_user.name}さんの面接一覧
-- @interviews.each do |interview|
-  .interview
-    =interview.date.strftime("%Y-%m-%d %H:%M:%S")
-    =interview.status
-    =link_to "編集", edit_user_interview_path(current_user, interview)
-    =link_to "削除", "/users/#{current_user.id}/interviews/#{interview.id}", method: :delete, data: {confirm: "削除してよろしいでしょうか？"}
+%p #{@user.name}さんの面接一覧
+- if @user == current_user
+  - @interviews.each do |interview|
+    .interview
+      =interview.date.strftime("%Y-%m-%d %H:%M:%S")
+      =interview.status
+      =link_to "編集", edit_user_interview_path(@user, interview)
+      =link_to "削除", "/users/#{current_user.id}/interviews/#{interview.id}", method: :delete, data: {confirm: "削除してよろしいでしょうか？"}
+- else
+  %p 面接日程を以下から選んでください。
+  - @interviews.each do |interview|
+    .interview
+      = link_to "#{interview.date.strftime("%Y-%m-%d %H:%M:%S")}", "/users/#{current_user.id}/interview/#{interview.id}", method: :patch
+      =interview.status
+
+
+

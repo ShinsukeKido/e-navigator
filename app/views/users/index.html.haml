@@ -1,0 +1,13 @@
+%p ユーザー一覧
+- @users.each do |user|
+  .name 名前: #{user.name}
+  .email Email: #{user.email}
+  - unless user.birth.nil?
+    .age 年齢: #{user.age}歳
+  -else
+    .age 年齢:
+  .gender 性別: #{user.gender}
+  .school 学校名: #{user.school}
+  .interviews
+    =link_to "面接一覧", user_interviews_path(user)
+  %hr
