@@ -4,6 +4,7 @@ class InterviewsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
     @interviews = @user.interviews.order("date ASC")
+    @interviewers = User.where.not(id: current_user.id).order("id ASC")
   end
 
   def new
@@ -13,7 +14,6 @@ class InterviewsController < ApplicationController
   def create
     @interview = Interview.new(interview_params)
     if @interview.save
-      NotificationMailer.send_confirm_to_interviewer(current_user).deliver
       redirect_to root_path, notice: '面接日程を作成しました'
     else
       flash.now[:alert] = '面接日程を作成できませんでした'
@@ -30,12 +30,17 @@ class InterviewsController < ApplicationController
     end
   end
 
+  def apply
+    @interviewer = User.find(params[:interviewer_id])
+    NotificationMailer.send_confirm_to_interviewer(@interviewer, current_user).deliver
+    redirect_to root_path, notice: '面接日程を申請しました'
+  end
+
   def approve
-    @user = @interview.user
-    @interviewer = User.find(params[:user_id])
-    @interviews = Interview.where(user_id: @user.id).where.not(id: params[:id])
+    @interviewee = @interview.user
+    @interviews = Interview.where(user_id: @interviewee.id).where.not(id: params[:id])
     if @interview.update(status: 1) && @interviews.update(status: 2)
-      NotificationMailer.send_confirm_to_user(@user, @interviewer, @interview).deliver
+      NotificationMailer.send_confirm_to_user(current_user, @interviewee, @interview).deliver
       redirect_to root_path, notice: '面接日程を選択しました'
     else
       flash.now[:alert] = '面接日程を選択できませんでした'
