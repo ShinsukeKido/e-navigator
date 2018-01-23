@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :edit, :update] do
     resources :interviews
   end
-  patch 'users/:user_id/interview/:id'  =>  'interviews#update2'
+  patch 'users/:user_id/interview/:id'  =>  'interviews#approve'
 end

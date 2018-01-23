@@ -1,5 +1,5 @@
 class InterviewsController < ApplicationController
-  before_action :set_interview, only: [:edit, :destroy, :update, :update2]
+  before_action :set_interview, only: [:edit, :destroy, :update, :approve]
 
   def index
     @user = User.find(params[:user_id])
@@ -29,7 +29,7 @@ class InterviewsController < ApplicationController
     end
   end
 
-  def update2
+  def approve
     @user = @interview.user
     @interviewer = User.find(params[:user_id])
     @interviews = Interview.where(user_id: @user.id).where.not(id: params[:id])
