@@ -6,12 +6,13 @@
       =interview.status
       =link_to "編集", edit_user_interview_path(@user, interview)
       =link_to "削除", "/users/#{current_user.id}/interviews/#{interview.id}", method: :delete, data: {confirm: "削除してよろしいでしょうか？"}
+  %p 面接官を以下から選び、申請してください。
+  - @interviewers.each do |interviewer|
+    .interviewer
+      = link_to "#{interviewer.name}", "/interviewer/#{interviewer.id}"
 - else
   %p 面接日程を以下から選んでください。
   - @interviews.each do |interview|
     .interview
-      = link_to "#{interview.date.strftime("%Y-%m-%d %H:%M:%S")}", "/users/#{current_user.id}/interview/#{interview.id}", method: :patch
-      =interview.status
-
-
-
+      = link_to "#{interview.date.strftime("%Y-%m-%d %H:%M:%S")}", "/interview/#{interview.id}", method: :patch
+      = interview.status
